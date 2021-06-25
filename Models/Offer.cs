@@ -37,5 +37,10 @@ namespace mas_project.Models
 
         [ForeignKey(nameof(IdAdvert))]
         public Advert Advert { get; set; }
+
+        public int? IdTransaction { get; set; }
+
+        [ForeignKey(nameof(IdTransaction))]
+        public Transaction Transaction { get; set; }
     }
 }

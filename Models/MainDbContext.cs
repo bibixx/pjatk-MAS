@@ -25,6 +25,16 @@ namespace mas_project.Models
         public DbSet<TradeOffer> TradeOffers  { get; set; }
         public DbSet<BuyoutOffer> BuyoutOffers { get; set; }
 
+        public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<CollectionMethod> CollectionMethods { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<SelfPickup> SelfPickups { get; set; }
+
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Prepayment> Prepayments { get; set; }
+        public DbSet<PaymentOnDelivery> PaymentOnDelivery { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
