@@ -70,19 +70,42 @@ namespace mas_project.Models
             });
 
             modelBuilder.Entity<Game>(builder => {
-                builder.HasData(new Game {
-                    IdGame = 1,
-                    Title = "Game 1",
-                    Description = "Description 1",
-                    ReleaseDate = new DateTime()
-                });
+                var gameNames = new List<String> {
+                    "Super Smash Bros: For Wii U",
+                    "The Elder Scrolls V: Skyrim",
+                    "Call of Duty: Black Ops II",
+                    "Spider-Man (2018)",
+                    "The Legend of Zelda: Breath Of The Wild",
+                    "Super Mario Odyssey",
+                    "Call of Duty: Black Ops IIII",
+                    "Counter-Strike: Global Offensive",
+                    "PlayerUnknown’s Battlegrounds (PUBG)",
+                    "League of Legends",
+                    "Roblox",
+                    "Rocket League",
+                    "Overwatch",
+                    "Red Dead Redemption II",
+                    "Super Smash Bros: Ultimate",
+                    "Tom Clancy’s Rainbow Six Siege",
+                    "Grand Theft Auto V",
+                    "Fortnite",
+                    "Minecraft",
+                    "Summary"
+                };
 
-                builder.HasData(new Game {
-                    IdGame = 2,
-                    Title = "Game 2",
-                    Description = "Description 2",
-                    ReleaseDate = new DateTime()
-                });
+                var i = 1;
+
+                foreach (var gameName in gameNames)
+                {
+                    builder.HasData(new Game {
+                        IdGame = i,
+                        Title = gameName,
+                        Description = "Minima enim distinctio ea excepturi. Maxime ipsa provident consequatur sit non quaerat.",
+                        ReleaseDate = new DateTime()
+                    });
+
+                    i++;
+                }
             });
 
             modelBuilder.Entity<Advert>(builder => {
@@ -94,6 +117,24 @@ namespace mas_project.Models
                     IsActive = true,
                     IdSeller = 2
                 });
+
+                builder.HasData(new Advert {
+                    IdAdvert = 2,
+                    GameCondition = GameConditionType.UsageVisible,
+                    Description = "Description 2",
+                    CreationDate = new DateTime(),
+                    IsActive = true,
+                    IdSeller = 2
+                });
+
+                builder.HasData(new Advert {
+                    IdAdvert = 3,
+                    GameCondition = GameConditionType.Perfect,
+                    Description = "Description 3",
+                    CreationDate = new DateTime(),
+                    IsActive = true,
+                    IdSeller = 2
+                });
             });
 
             modelBuilder.Entity<AdvertGameSubject>(builder => {
@@ -101,6 +142,16 @@ namespace mas_project.Models
                     IdAdvertGameSubject = 1,
                     IdAdvert = 1,
                     IdGame = 1,
+                });
+                builder.HasData(new AdvertGameSubject {
+                    IdAdvertGameSubject = 2,
+                    IdAdvert = 2,
+                    IdGame = 2,
+                });
+                builder.HasData(new AdvertGameSubject {
+                    IdAdvertGameSubject = 3,
+                    IdAdvert = 3,
+                    IdGame = 3,
                 });
             });
 
