@@ -15,6 +15,9 @@ namespace mas_project.Models
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public DateTime ReleaseDate { get; set; }
+
         public string CoverPhoto { get; set; }
 
         public ICollection<AdvertGameSubject> AdvertGameSubjects { get; set; }

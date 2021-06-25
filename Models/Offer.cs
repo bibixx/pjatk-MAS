@@ -29,7 +29,6 @@ namespace mas_project.Models
         public DateTime CreationDate { get; set; }
 
         [Required]
-        [NotMapped]
         public OfferStatus Status { get; set; }
 
         [Required]

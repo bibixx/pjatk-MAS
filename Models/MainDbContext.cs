@@ -48,14 +48,24 @@ namespace mas_project.Models
             modelBuilder.Entity<User>(builder => {
                 builder.HasData(new User {
                     IdUser = 1,
+                    FirstName = "John",
+                    LastName = "Doe",
+                    UserName = "jDoe",
+                    Email = "john.doe@example.com",
                     CreationDate = new DateTime(),
-                    Types = new List<UserType> { UserType.Buyer },
+                    IsBuyer = true
                 });
 
                 builder.HasData(new User {
                     IdUser = 2,
+                    FirstName = "Jane",
+                    LastName = "Doe",
+                    UserName = "janeDoe",
+                    Email = "jane.doe@example.com",
                     CreationDate = new DateTime(),
-                    Types = new List<UserType> { UserType.Seller },
+                    IsSeller = true,
+                    SelfPickupAddress = "Long Street 1",
+                    PhoneNumber = "000 000 000",
                 });
             });
 
@@ -64,18 +74,21 @@ namespace mas_project.Models
                     IdGame = 1,
                     Title = "Game 1",
                     Description = "Description 1",
+                    ReleaseDate = new DateTime()
                 });
 
                 builder.HasData(new Game {
                     IdGame = 2,
                     Title = "Game 2",
                     Description = "Description 2",
+                    ReleaseDate = new DateTime()
                 });
             });
 
             modelBuilder.Entity<Advert>(builder => {
                 builder.HasData(new Advert {
                     IdAdvert = 1,
+                    GameCondition = GameConditionType.BrandNew,
                     Description = "Description 1",
                     CreationDate = new DateTime(),
                     IsActive = true,

@@ -5,11 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mas_project.Models
 {
-    // TODO: Category
+    public enum GameConditionType {
+        BrandNew,
+        Perfect,
+        VeryGood,
+        UsageVisible
+    }
+
 	public partial class Advert
     {
         [Key]
         public int IdAdvert { get; set; }
+
+        [Required]
+        public GameConditionType GameCondition { get; set; }
 
         [Required]
         [MaxLength(500)]
@@ -26,6 +35,12 @@ namespace mas_project.Models
         [Required]
         [ForeignKey(nameof(IdSeller))]
         public User Seller { get; set; }
+
+        public string Category {
+            get {
+                return this.Seller.SelfPickupAddress;
+            }
+        }
 
         [Required]
         public ICollection<AdvertGameSubject> AdvertGameSubjects { get; set; }
