@@ -9,7 +9,7 @@ using mas_project.Models.DTOs.Requests;
 using System.Collections.Generic;
 using System;
 
-namespace kolokwium_zen_s19129.Controllers
+namespace mas_project.Controllers
 {
     [Route("api/adverts")]
     [ApiController]
@@ -164,6 +164,22 @@ namespace kolokwium_zen_s19129.Controllers
             return null;
         }
 
+        private async Task<IActionResult> ValidateOfferGames(List<int> gameIds) {
+            var games = await this._context.Games
+                .Where(game => gameIds.Contains(game.IdGame))
+                .Select(game => game.IdGame)
+                .ToListAsync();
+
+            foreach (var gameId in gameIds)
+            {
+                if (!games.Contains(gameId)) {
+                    return UnprocessableEntity("Game with id " + gameId.ToString() + " doesn't exist.");
+                }
+            }
+
+            return null;
+        }
+
         [HttpPost("{idAdvert}/offers/trade")]
         public async Task<IActionResult> CreateTradeOffer(int idAdvert, CreateTradeOfferDTO body) {
             var advertValidationResult = await this.ValidateOfferAdvert(idAdvert);
@@ -176,15 +192,29 @@ namespace kolokwium_zen_s19129.Controllers
                 return buyerValidationResult;
             }
 
+            var gamesValidationResult = await this.ValidateOfferGames(body.GameIds);
+            if (gamesValidationResult != null) {
+                return gamesValidationResult;
+            }
+
             var newTradeOffer = new TradeOffer {
                 IdBuyer = body.IdBuyer,
                 CreationDate = DateTime.Now,
                 Status = OfferStatus.Open,
                 IdAdvert = idAdvert,
-                IdGame = body.GameIds[0]
             };
 
             this._context.TradeOffers.Add(newTradeOffer);
+
+            await this._context.SaveChangesAsync();
+
+            foreach (var gameId in body.GameIds)
+            {
+                this._context.TradeOfferGames.Add(new TradeOfferGame {
+                    IdGame = gameId,
+                    IdOffer = newTradeOffer.IdOffer
+                });
+            }
 
             await this._context.SaveChangesAsync();
 
@@ -225,7 +255,8 @@ namespace kolokwium_zen_s19129.Controllers
                 .Include(ad => ad.TradeOffers)
                     .ThenInclude(ags => ags.Buyer)
                 .Include(ad => ad.TradeOffers)
-                    .ThenInclude(ags => ags.ProposedGame)
+                    .ThenInclude(ags => ags.ProposedGames)
+                    .ThenInclude(pg => pg.Game)
                 .Include(ad => ad.BuyoutOffers)
                     .ThenInclude(ags => ags.Buyer)
                 .FirstOrDefaultAsync();
@@ -237,14 +268,17 @@ namespace kolokwium_zen_s19129.Controllers
             var dtoTradeOffers = new List<GetOffersResponseDTOTradeOffers>();
             foreach (var offer in advert.TradeOffers)
             {
-                var dtoGames = new List<GameDTO> {
-                    new GameDTO {
-                        IdGame = offer.ProposedGame.IdGame,
-                        Title = offer.ProposedGame.Title,
-                        Description = offer.ProposedGame.Description,
-                        CoverPhoto = offer.ProposedGame.CoverPhoto,
-                    }
-                };
+                var dtoGames = new List<GameDTO>();
+
+                foreach (var proposedGame in offer.ProposedGames)
+                {
+                    dtoGames.Add(new GameDTO {
+                        IdGame = proposedGame.Game.IdGame,
+                        Title = proposedGame.Game.Title,
+                        Description = proposedGame.Game.Description,
+                        CoverPhoto = proposedGame.Game.CoverPhoto,
+                    });
+                }
 
                 dtoTradeOffers.Add(new GetOffersResponseDTOTradeOffers {
                     Buyer = new GetOffersResponseDTOBuyer {

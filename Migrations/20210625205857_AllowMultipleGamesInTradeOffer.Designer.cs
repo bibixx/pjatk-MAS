@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mas_project.Models;
 
 namespace mas_project.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210625205857_AllowMultipleGamesInTradeOffer")]
+    partial class AllowMultipleGamesInTradeOffer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,23 +510,23 @@ namespace mas_project.Migrations
                         {
                             IdUser = 1,
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "bob.doe@example.com",
-                            FirstName = "Bob",
+                            Email = "john.doe@example.com",
+                            FirstName = "John",
                             IsBuyer = true,
                             IsSeller = false,
                             LastName = "Doe",
-                            UserName = "bob"
+                            UserName = "jDoe"
                         },
                         new
                         {
                             IdUser = 2,
                             CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "alice.doe@example.com",
-                            FirstName = "Alice",
+                            Email = "jane.doe@example.com",
+                            FirstName = "Jane",
                             IsBuyer = false,
                             IsSeller = true,
                             LastName = "Doe",
-                            UserName = "alice",
+                            UserName = "janeDoe",
                             _PhoneNumber = "000 000 000",
                             _SelfPickupAddress = "Long Street 1"
                         });

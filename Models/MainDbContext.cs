@@ -22,7 +22,8 @@ namespace mas_project.Models
         public DbSet<Game> Games { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<TradeOffer> TradeOffers  { get; set; }
+        public DbSet<TradeOffer> TradeOffers { get; set; }
+        public DbSet<TradeOfferGame> TradeOfferGames { get; set; }
         public DbSet<BuyoutOffer> BuyoutOffers { get; set; }
 
         public DbSet<Transaction> Transactions { get; set; }
@@ -48,20 +49,20 @@ namespace mas_project.Models
             modelBuilder.Entity<User>(builder => {
                 builder.HasData(new User {
                     IdUser = 1,
-                    FirstName = "John",
+                    FirstName = "Bob",
                     LastName = "Doe",
-                    UserName = "jDoe",
-                    Email = "john.doe@example.com",
+                    UserName = "bob",
+                    Email = "bob.doe@example.com",
                     CreationDate = new DateTime(),
                     IsBuyer = true
                 });
 
                 builder.HasData(new User {
                     IdUser = 2,
-                    FirstName = "Jane",
+                    FirstName = "Alice",
                     LastName = "Doe",
-                    UserName = "janeDoe",
-                    Email = "jane.doe@example.com",
+                    UserName = "alice",
+                    Email = "alice.doe@example.com",
                     CreationDate = new DateTime(),
                     IsSeller = true,
                     SelfPickupAddress = "Long Street 1",
@@ -168,9 +169,24 @@ namespace mas_project.Models
                     IdOffer = 1,
                     IdBuyer = 1,
                     IdAdvert = 1,
-                    IdGame = 2,
                     CreationDate = new DateTime(),
                     Status = OfferStatus.Open
+                });
+            });
+
+            modelBuilder.Entity<TradeOfferGame>(builder => {
+                builder.HasData(new TradeOfferGame {
+                    IdTradeOfferGame = 1,
+                    IdGame = 2,
+                    IdOffer = 1,
+                });
+            });
+
+            modelBuilder.Entity<TradeOfferGame>(builder => {
+                builder.HasData(new TradeOfferGame {
+                    IdTradeOfferGame = 2,
+                    IdGame = 3,
+                    IdOffer = 1,
                 });
             });
 

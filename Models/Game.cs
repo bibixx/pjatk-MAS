@@ -23,5 +23,7 @@ namespace mas_project.Models
         public ICollection<AdvertGameSubject> AdvertGameSubjects { get; set; }
 
         public ICollection<AdvertGameCanBeTradedFor> AdvertGamesCanBeTradedFor { get; set; }
+
+        public ICollection<TradeOfferGame> TradeOfferGames { get; set; }
     }
 }
