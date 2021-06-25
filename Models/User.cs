@@ -55,7 +55,7 @@ namespace mas_project.Models
                     throw new Exception("User is not a seller");
                 }
 
-                return this.PhoneNumber;
+                return this._PhoneNumber;
             }
             set {
                 if (!this.IsSeller) {
