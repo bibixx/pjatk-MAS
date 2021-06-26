@@ -1,5 +1,7 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback } from 'react';
 import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { fetcher } from '../../utils/fetcher';
 
 export interface UserData {
@@ -28,7 +30,8 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserContextProvider: React.FC = ({ children }) => {
-  const [userData, setUserData] = useState<UserData | null>(null)
+  const [userData, setUserData] = useSessionStorage<UserData | null>("userData", null)
+  const history = useHistory()
 
   const logIn = useCallback(async (username: string) => {
     const response = await fetcher('/api/auth/login', {
@@ -42,11 +45,12 @@ export const UserContextProvider: React.FC = ({ children }) => {
     })
 
     setUserData(response);
-  }, [])
+  }, [setUserData])
 
   const logOut = useCallback(() => {
     setUserData(null);
-  }, [])
+    history.push("/")
+  }, [history, setUserData])
 
   const value = {
     data: userData,

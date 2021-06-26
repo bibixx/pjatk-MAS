@@ -1,46 +1,57 @@
-import React, { useState } from "react";
 import { useUserData } from "../../components/UserContext/UserContext";
 
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Container } from "./Login.styled";
+import { useForm } from "antd/lib/form/Form";
+
 export const Login = () => {
-  const [userName, setUserName] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [form] = useForm();
   const { logIn } = useUserData();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null)
-
-    if (!userName) {
-      setError('Nazwa użytkownika jest wymagana.')
-    }
-
+  const onFinish = async ({ username }: { username: string }) => {
     try {
-      await logIn(userName);
+      await logIn(username);
     } catch (error) {
-      setError('Nazwa użytkownika lub hasło są błędne.')
+      form.setFields([
+        {
+          name: 'password',
+          errors: ['Nazwa użytkownika lub hasło są błędne.'],
+        },
+      ]);
     }
-  }
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        <div>Login</div>
-        <input type="text" name="login" id="login" value={userName} onChange={onChange} />
-      </label>
-      <label>
-        <div>Hasło</div>
-        <input type="text" name="password" id="password" />
-      </label>
-      <div>
-        <strong>{error}</strong>
-      </div>
-      <div>
-        <button>Zaloguj się</button>
-      </div>
-    </form>
+    <Container>
+      <Form
+        name="normal_login"
+        className="login-form"
+        onFinish={onFinish}
+        form={form}
+      >
+        <Form.Item
+          name="username"
+          rules={[{ required: true, message: 'Proszę podać nazwę użytkownika!' }]}
+        >
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nazwa użytkownika" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'Proszę podać hasło!' }]}
+        >
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Hasło"
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            Zaloguj się
+          </Button>
+        </Form.Item>
+      </Form>
+    </Container>
   );
 }

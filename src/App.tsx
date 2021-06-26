@@ -12,22 +12,30 @@ import { UserContextProvider } from "./components/UserContext/UserContext";
 
 import { AdvertPage } from "./views/AdvertPage/AdvertPage";
 import { Login } from "./views/Login/Login";
-import { Index } from "./views/Index/Index";
+import { CreateOfferPage } from "./views/CreateOfferPage/CreateOfferPage";
+import { IndexPage } from "./views/IndexPage/IndexPage";
+
 import { NotFound } from "./components/NotFound/NotFound";
+import { PageLayout } from "./components/PageLayout/PageLayout";
+
+import "./App.css";
 
 function App() {
   return (
-    <UserContextProvider>
-      <SWRConfig value={{ fetcher }}>
-        <Router>
-          <Switch>
-            <PrivateRoute path="/" exact component={Index} fallbackComponent={Login} />
-            <PrivateRoute path="/adverts/:id" exact component={AdvertPage} />
-            <Route component={NotFound} />
-          </Switch>
-        </Router>
-      </SWRConfig>
-    </UserContextProvider>
+    <SWRConfig value={{ fetcher }}>
+      <Router>
+        <UserContextProvider>
+          <PageLayout>
+            <Switch>
+              <PrivateRoute path="/" exact component={IndexPage} fallbackComponent={Login} />
+              <PrivateRoute path="/ogloszenia/:id" exact component={AdvertPage} />
+              <PrivateRoute path="/ogloszenia/:id/nowe" exact component={CreateOfferPage} />
+              <Route component={NotFound} />
+            </Switch>
+          </PageLayout>
+        </UserContextProvider>
+      </Router>
+    </SWRConfig>
   );
 }
 
