@@ -47,10 +47,8 @@ namespace mas_project.Models
 
         public ICollection<AdvertGameCanBeTradedFor> AdvertGamesCanBeTradedFor { get; set; }
 
-        // TODO: Composition
         public ICollection<TradeOffer> TradeOffers { get; set; }
 
-        // TODO: Composition
         public ICollection<BuyoutOffer> BuyoutOffers { get; set; }
     }
 }

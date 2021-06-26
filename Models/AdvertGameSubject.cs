@@ -17,7 +17,7 @@ namespace mas_project.Models
         [Required]
         public int IdGame { get; set; }
 
-        [ForeignKey(nameof(IdAdvert))]
+        [ForeignKey(nameof(IdGame))]
         public Game Game { get; set; }
     }
 }
