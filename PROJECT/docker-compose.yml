@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  backend:
+    build:
+      context: be
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+      - ConnectionStrings:DB=Server=db;Database=master;User Id=sa;Password=6#Awq!!hpFts+U?afv_y;
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+
+  frontend:
+    build:
+      context: fe
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+
+  db:
+    image: mcr.microsoft.com/azure-sql-edge
+    restart: always
+    environment:
+      ACCEPT_EULA: 1
+      MSSQL_SA_PASSWORD: 6#Awq!!hpFts+U?afv_y
+    volumes:
+      - db:/var/opt/mssql
+    ports:
+      - 1433:1433
+
+volumes:
+  db:
